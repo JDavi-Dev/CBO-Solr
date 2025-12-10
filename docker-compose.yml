@@ -1,0 +1,47 @@
+services:
+  # 1. Serviço do Banco de Dados (Postgres)
+  db:
+    image: postgres:18.1-alpine3.22
+    container_name: cbo-banco
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - Postgres.env
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Serviço do Servidor Solr
+  solr:
+    image: solr:9.10-slim
+    container_name: cbo-solr
+    ports:
+      - "8983:8983"
+    entrypoint:
+      # Inicia o Solr e cria o core 'cbo_core' automaticamente se não existir
+      - docker-entrypoint.sh
+      - solr-precreate
+      - cbo_core
+
+  # 3. Serviço da Aplicação Flask
+  app:
+    build:
+      context: .
+      dockerfile: Flask.Dockerfile
+    container_name: cbo-api
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy # Espera o DB estar pronto
+      solr:
+        condition: service_started # Espera o Solr iniciar
+
+volumes:
+  postgres_data:
