@@ -12,7 +12,7 @@ cbo_fields = {
 class CBO(db.Model):
     __tablename__ = "tb_cbo"
 
-    cod_cbo: Mapped[int] = mapped_column(primary_key=True)
+    cod_cbo: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     titulo: Mapped[str] = mapped_column()
 
 def __init__(self, cod_cbo: int, titulo: str):
