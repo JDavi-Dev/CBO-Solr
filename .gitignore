@@ -18,8 +18,11 @@ Postgres.env
 # Exemplo de .env (Deve ser copiado para .env e preenchido):
 # SQLALCHEMY_DATABASE_URI="postgresql://user:password@cbo-banco:5432/cbo"
 # SOLR_HOST="http://solr:8983/solr"
+# CORE_NAME="cbo_core"
+# SCHEMA_ENDPOINT="http://solr:8983/solr/cbo_core/schema"
 # SOLR_QUERY_URL="http://solr:8983/solr/cbo_core/select"
 # SOLR_UPDATE_URL="http://solr:8983/solr/cbo_core/update?commit=true"
+# STATUS_SOLR="http://solr:8983/solr/admin/cores?action=STATUS&core=cbo_core"
 
 # Exemplo de Postgres.env (Deve ser copiado para Postgres.env e preenchido):
 # POSTGRES_USER="postgres"
