@@ -21,11 +21,7 @@ services:
     container_name: cbo-solr
     ports:
       - "8983:8983"
-    entrypoint:
-      # Inicia o Solr e cria o core 'cbo_core' automaticamente se não existir
-      - docker-entrypoint.sh
-      - solr-precreate
-      - cbo_core
+    entrypoint: ["docker-entrypoint.sh", "solr-precreate", "cbo_core"]
 
   # 3. Serviço da Aplicação Flask
   app:
